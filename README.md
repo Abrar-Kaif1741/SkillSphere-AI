@@ -166,14 +166,7 @@ VITE_API_URL=https://YOUR-RENDER-BACKEND-URL.onrender.com/api
 ### Dashboard
 
 _Add your dashboard screenshot here._
-
-### Users
-
-_Add your users page screenshot here._
-
-### Recommendations
-
-_Add your recommendations page screenshot here._
+<img width="1600" height="734" alt="WhatsApp Image 2026-08-07 at 7 20 41 PM" src="https://github.com/user-attachments/assets/e9f0acd0-d045-4e83-8361-9f93b603c602" />
 
 ---
 
