@@ -22,7 +22,7 @@
 
 ### ⚙️ Backend API
 
-**https://YOUR-RENDER-BACKEND-URL.onrender.com**
+https://skillsphere-ai-bsiv.onrender.com
 
 ---
 
