@@ -6,8 +6,8 @@ import {
   FaTrash,
   FaEye,
 } from "react-icons/fa";
-
 import useUsers from "../hooks/useUsers";
+import api from "../services/api";
 
 export default function Users() {
   const { users, loading } = useUsers();
@@ -22,6 +22,76 @@ export default function Users() {
     );
   }, [users, search]);
 
+  const refresh = () => window.location.reload();
+
+  const addUser = async () => {
+    const name = prompt("Enter Name");
+    if (!name) return;
+
+    const email = prompt("Enter Email");
+    if (!email) return;
+
+    const experience = prompt("Enter Experience");
+    if (!experience) return;
+
+    try {
+      await api.post("/users", {
+        name,
+        email,
+        experience,
+      });
+
+      alert("User Added Successfully");
+      refresh();
+    } catch (err) {
+      console.error(err);
+      alert("Failed to Add User");
+    }
+  };
+
+  const editUser = async (user) => {
+    const name = prompt("Name", user.name);
+    if (!name) return;
+
+    const email = prompt("Email", user.email);
+    if (!email) return;
+
+    const experience = prompt(
+      "Experience",
+      user.experience
+    );
+    if (!experience) return;
+
+    try {
+      await api.put(`/users/${user.id}`, {
+        name,
+        email,
+        experience,
+      });
+
+      alert("User Updated Successfully");
+      refresh();
+    } catch (err) {
+      console.error(err);
+      alert("Update Failed");
+    }
+  };
+
+  const deleteUser = async (id) => {
+    if (!window.confirm("Delete this user?"))
+      return;
+
+    try {
+      await api.delete(`/users/${id}`);
+
+      alert("User Deleted Successfully");
+      refresh();
+    } catch (err) {
+      console.error(err);
+      alert("Delete Failed");
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -33,9 +103,7 @@ export default function Users() {
   }
 
   return (
-    <div className="space-y-6 p-6">
-
-      {/* Header */}
+    <div className="p-8 space-y-6">
 
       <div className="flex justify-between items-center">
 
@@ -46,24 +114,22 @@ export default function Users() {
           </h1>
 
           <p className="text-gray-500">
-            Manage all platform users
+            Manage all registered users
           </p>
 
         </div>
 
-        <button className="flex items-center gap-2 bg-cyan-600 hover:bg-cyan-700 text-white px-5 py-3 rounded-xl">
-
+        <button
+          onClick={addUser}
+          className="flex items-center gap-2 bg-cyan-600 text-white px-5 py-3 rounded-xl hover:bg-cyan-700"
+        >
           <FaPlus />
-
           Add User
-
         </button>
 
       </div>
 
-      {/* Search */}
-
-      <div className="bg-white shadow rounded-xl p-5">
+      <div className="bg-white p-5 rounded-xl shadow">
 
         <div className="relative">
 
@@ -73,17 +139,17 @@ export default function Users() {
             type="text"
             placeholder="Search users..."
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full border rounded-xl py-3 pl-12 pr-4 outline-none focus:ring-2 focus:ring-cyan-500"
+            onChange={(e) =>
+              setSearch(e.target.value)
+            }
+            className="w-full border rounded-xl py-3 pl-12 pr-4"
           />
 
         </div>
 
       </div>
 
-      {/* Users Table */}
-
-      <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+      <div className="bg-white rounded-xl shadow overflow-hidden">
 
         <table className="w-full">
 
@@ -95,54 +161,35 @@ export default function Users() {
                 User
               </th>
 
-              <th className="text-left">
-                Email
-              </th>
+              <th>Email</th>
 
-              <th className="text-left">
-                Experience
-              </th>
+              <th>Experience</th>
 
-              <th className="text-left">
-                Status
-              </th>
+              <th>Status</th>
 
-              <th className="text-left">
-                Actions
-              </th>
+              <th>Actions</th>
 
             </tr>
 
           </thead>
 
           <tbody>
-
-            {filteredUsers.length === 0 ? (
-
+                        {filteredUsers.length === 0 ? (
               <tr>
-
                 <td
                   colSpan="5"
-                  className="text-center py-8"
+                  className="text-center py-10 text-gray-500"
                 >
-
                   No Users Found
-
                 </td>
-
               </tr>
-
             ) : (
-
-              filteredUsers.map((user, index) => (
-
+              filteredUsers.map((user) => (
                 <tr
-                  key={user.id?.low ?? user.id ?? index}
-                  className="border-b hover:bg-gray-50"
+                  key={user.id}
+                  className="border-b hover:bg-slate-50 transition"
                 >
-
                   <td className="p-4">
-
                     <div className="flex items-center gap-4">
 
                       <img
@@ -154,67 +201,59 @@ export default function Users() {
                       />
 
                       <div>
-
                         <h3 className="font-semibold">
-
                           {user.name}
-
                         </h3>
 
                         <p className="text-sm text-gray-500">
-
-                          ID : {user.id?.low ?? user.id}
-
+                          ID : {user.id}
                         </p>
-
                       </div>
 
                     </div>
-
                   </td>
 
-                  <td>
+                  <td>{user.email}</td>
 
-                    {user.email}
-
-                  </td>
+                  <td>{user.experience}</td>
 
                   <td>
-
-                    {user.experience}
-
-                  </td>
-
-                  <td>
-
-                    <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full">
-
+                    <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm">
                       Active
-
                     </span>
-
                   </td>
 
                   <td>
 
                     <div className="flex gap-4">
 
-                      <button className="text-blue-600">
+                      <button
+                        onClick={() =>
+                          alert(
+                            `Name: ${user.name}
 
+Email: ${user.email}
+
+Experience: ${user.experience}`
+                          )
+                        }
+                        className="text-blue-600 hover:text-blue-800"
+                      >
                         <FaEye />
-
                       </button>
 
-                      <button className="text-yellow-500">
-
+                      <button
+                        onClick={() => editUser(user)}
+                        className="text-yellow-500 hover:text-yellow-600"
+                      >
                         <FaEdit />
-
                       </button>
 
-                      <button className="text-red-600">
-
+                      <button
+                        onClick={() => deleteUser(user.id)}
+                        className="text-red-600 hover:text-red-700"
+                      >
                         <FaTrash />
-
                       </button>
 
                     </div>
@@ -222,14 +261,36 @@ export default function Users() {
                   </td>
 
                 </tr>
-
               ))
-
             )}
 
           </tbody>
 
         </table>
+
+      </div>
+
+      <div className="bg-cyan-50 border border-cyan-200 rounded-xl p-4">
+
+        <div className="flex justify-between items-center">
+
+          <div>
+
+            <h2 className="font-bold text-cyan-800">
+              Total Users
+            </h2>
+
+            <p className="text-gray-600">
+              {filteredUsers.length} user(s)
+            </p>
+
+          </div>
+
+          <div className="text-4xl font-bold text-cyan-600">
+            {filteredUsers.length}
+          </div>
+
+        </div>
 
       </div>
 
