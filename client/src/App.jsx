@@ -12,17 +12,34 @@ import Recommendations from "./pages/Recommendations";
 
 function App() {
   return (
-    <Layout>
-      <Routes>
+    <Routes>
+      <Route element={<Layout />}>
+
         <Route path="/" element={<Dashboard />} />
+
         <Route path="/users" element={<Users />} />
+
         <Route path="/skills" element={<Skills />} />
+
         <Route path="/jobs" element={<Jobs />} />
-        <Route path="/companies" element={<Companies />} />
-        <Route path="/courses" element={<Courses />} />
-        <Route path="/recommendations" element={<Recommendations />} />
-      </Routes>
-    </Layout>
+
+        <Route
+          path="/companies"
+          element={<Companies />}
+        />
+
+        <Route
+          path="/courses"
+          element={<Courses />}
+        />
+
+        <Route
+          path="/recommendations"
+          element={<Recommendations />}
+        />
+
+      </Route>
+    </Routes>
   );
 }
 

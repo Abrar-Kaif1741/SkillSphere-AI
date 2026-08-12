@@ -6,95 +6,139 @@ import {
   FaBuilding,
   FaBook,
   FaLightbulb,
-  FaGraduationCap
+  FaGraduationCap,
 } from "react-icons/fa";
 
 const menus = [
   {
     name: "Dashboard",
     icon: <FaChartPie />,
-    path: "/"
+    path: "/",
   },
   {
     name: "Users",
     icon: <FaUsers />,
-    path: "/users"
+    path: "/users",
   },
   {
     name: "Jobs",
     icon: <FaBriefcase />,
-    path: "/jobs"
+    path: "/jobs",
   },
   {
     name: "Companies",
     icon: <FaBuilding />,
-    path: "/companies"
+    path: "/companies",
   },
   {
     name: "Skills",
     icon: <FaLightbulb />,
-    path: "/skills"
+    path: "/skills",
   },
   {
     name: "Courses",
     icon: <FaGraduationCap />,
-    path: "/courses"
+    path: "/courses",
   },
   {
     name: "Recommendations",
     icon: <FaBook />,
-    path: "/recommendations"
-  }
+    path: "/recommendations",
+  },
 ];
 
 export default function Sidebar() {
   return (
-    <aside className="w-72 bg-slate-900 text-white flex flex-col">
+    <aside className="w-64 min-h-screen bg-slate-950 text-white flex flex-col shrink-0">
 
-      <div className="text-3xl font-bold text-center py-8 border-b border-slate-700">
+      {/* LOGO */}
 
-        SkillSphere AI
+      <div className="px-6 py-7 border-b border-slate-800">
 
-      </div>
+        <div className="flex items-center gap-3">
 
-      <div className="flex-1 p-4">
+          <div className="w-11 h-11 rounded-xl bg-cyan-600 flex items-center justify-center font-bold text-lg">
+            S
+          </div>
 
-        {menus.map((menu) => (
+          <div>
+            <h1 className="text-xl font-bold">
+              SkillSphere
+            </h1>
 
-          <NavLink
-            key={menu.name}
-            to={menu.path}
-            className={({ isActive }) =>
-              `flex items-center gap-4 p-4 rounded-xl mb-3 transition-all ${
-                isActive
-                  ? "bg-cyan-600"
-                  : "hover:bg-slate-800"
-              }`
-            }
-          >
+            <p className="text-xs text-cyan-400">
+              AI Platform
+            </p>
+          </div>
 
-            <span className="text-xl">
-              {menu.icon}
-            </span>
-
-            <span className="font-medium">
-              {menu.name}
-            </span>
-
-          </NavLink>
-
-        ))}
-
-      </div>
-
-      <div className="p-5 border-t border-slate-700">
-
-        <div className="font-semibold">
-          Abrar Kaif
         </div>
 
-        <div className="text-sm text-slate-400">
-          Administrator
+      </div>
+
+      {/* MENU */}
+
+      <nav className="flex-1 px-3 py-6">
+
+        <p className="text-[11px] uppercase tracking-wider text-slate-500 px-3 mb-3">
+          Main Menu
+        </p>
+
+        <div className="space-y-1.5">
+
+          {menus.map((menu) => (
+
+            <NavLink
+              key={menu.name}
+              to={menu.path}
+              className={({ isActive }) =>
+                `sidebar-link ${
+                  isActive
+                    ? "bg-cyan-600 text-white shadow-lg shadow-cyan-900/20"
+                    : "text-slate-400 hover:bg-slate-900 hover:text-white"
+                }`
+              }
+            >
+
+              <span className="text-lg">
+                {menu.icon}
+              </span>
+
+              <span className="font-medium text-sm">
+                {menu.name}
+              </span>
+
+            </NavLink>
+
+          ))}
+
+        </div>
+
+      </nav>
+
+      {/* PROFILE */}
+
+      <div className="p-4 border-t border-slate-800">
+
+        <div className="flex items-center gap-3 p-3 rounded-xl bg-slate-900">
+
+          <img
+            src="https://ui-avatars.com/api/?name=Abrar+Kaif&background=0891b2&color=fff"
+            alt="Abrar Kaif"
+            className="w-10 h-10 rounded-full"
+          />
+
+          <div className="min-w-0">
+
+            <p className="font-semibold text-sm truncate">
+              Abrar Kaif
+            </p>
+
+            <p className="text-xs text-slate-500">
+              Administrator
+            </p>
+
+          </div>
+
         </div>
 
       </div>

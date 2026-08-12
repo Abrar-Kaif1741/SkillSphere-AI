@@ -1,43 +1,56 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import api from "../services/api";
 
+const normalizeId = (id) => {
+  if (id && typeof id === "object" && "low" in id) {
+    return Number(id.low);
+  }
+
+  return Number(id);
+};
+
 export default function useUsers() {
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-    const [users, setUsers] = useState([]);
-    const [loading, setLoading] = useState(true);
+  const fetchUsers = useCallback(async () => {
+    try {
+      setError("");
 
-    const fetchUsers = async () => {
+      const response = await api.get("/users");
 
-        try {
+      const data = response.data?.users || [];
 
-            const res = await api.get("/users");
+      const normalizedUsers = data.map((user) => ({
+        ...user,
+        id: normalizeId(user.id),
+      }));
 
-            setUsers(res.data.users);
+      setUsers(normalizedUsers);
+    } catch (err) {
+      console.error("FETCH USERS ERROR:", err);
 
-        } catch (err) {
+      setError(
+        err.response?.data?.message ||
+          err.message ||
+          "Failed to load users"
+      );
 
-            console.error(err);
+      setUsers([]);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
-        } finally {
+  useEffect(() => {
+    fetchUsers();
+  }, [fetchUsers]);
 
-            setLoading(false);
-
-        }
-
-    };
-
-    useEffect(() => {
-
-        fetchUsers();
-
-    }, []);
-
-    return {
-
-        users,
-        loading,
-        fetchUsers
-
-    };
-
+  return {
+    users,
+    loading,
+    error,
+    fetchUsers,
+  };
 }

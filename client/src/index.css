@@ -1,16 +1,167 @@
 @import "tailwindcss";
 
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-body{
-  background:#f1f5f9;
-  font-family:Inter, sans-serif;
+html {
+  scroll-behavior: smooth;
 }
 
-a{
-  text-decoration:none;
+body {
+  background: #f1f5f9;
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  color: #0f172a;
+}
+
+button,
+input {
+  font-family: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+a {
+  text-decoration: none;
+}
+
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* SIDEBAR */
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.sidebar-link:hover {
+  transform: translateX(3px);
+}
+
+/* BUTTONS */
+
+.dashboard-button {
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.dashboard-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(8, 145, 178, 0.2);
+}
+
+.dashboard-button:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* STAT CARDS */
+
+.stat-card {
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 15px 30px rgba(15, 23, 42, 0.08);
+}
+
+/* ICON BUTTON */
+
+.icon-button {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #64748b;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.icon-button:hover {
+  background: #f1f5f9;
+  color: #0891b2;
+  transform: translateY(-2px);
+}
+
+/* DROPDOWNS */
+
+.dropdown-panel {
+  position: absolute;
+  top: calc(100% + 12px);
+  width: 320px;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  box-shadow:
+    0 20px 40px rgba(15, 23, 42, 0.12);
+  overflow: hidden;
+  z-index: 100;
+}
+
+/* INPUT */
+
+input {
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+input:focus {
+  border-color: #06b6d4;
+}
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+  .dropdown-panel {
+    width: 290px;
+  }
 }
